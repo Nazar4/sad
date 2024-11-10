@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int       @id @default(autoincrement())
+  email      String    @unique
+  password   String
+  firstName  String
+  lastName   String
+  phone      String?
+  address    String?
+  role       Role      @relation(fields: [roleId], references: [id])
+  roleId     Int
+  subscriptions Subscription[]
+}
+
+model Role {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  users       User[]
+}
+
+model Tariff {
+  id               Int           @id @default(autoincrement())
+  name             String
+  description      String?
+  internetSpeed    Int           // in Mbps
+  dataLimit        Int?          // in GB, nullable if unlimited
+  price            Decimal
+  televisionOption TelevisionOption? @relation(fields: [televisionOptionId], references: [id])
+  televisionOptionId Int?
+  subscriptions    Subscription[]
+}
+
+model TelevisionOption {
+  id           Int      @id @default(autoincrement())
+  packageType  String   // e.g., Basic, Premium, Sports
+  description  String?
+  price        Decimal
+  tariffs      Tariff[]
+}
+
+model Subscription {
+  id          Int      @id @default(autoincrement())
+  startDate   DateTime
+  endDate     DateTime?
+  isActive    Boolean  @default(true)
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  tariff      Tariff   @relation(fields: [tariffId], references: [id])
+  tariffId    Int
+  payments    Payment[]
+}
+
+model Payment {
+  id           Int       @id @default(autoincrement())
+  amount       Decimal
+  status       String     // e.g., "Completed", "Pending", "Failed"
+  subscription Subscription @relation(fields: [subscriptionId], references: [id])
+  subscriptionId Int
+}

@@ -1,0 +1,17 @@
+services:
+    db:
+        image: postgres:latest
+        container_name: postgres_sad
+        restart: always
+        environment:
+          - POSTGRES_USER=postgres
+          - POSTGRES_PASSWORD=postgres
+          - POSTGRES_DB=example
+        logging:
+          options:
+            max-size: 10m
+            max-file: "3"
+        ports:
+          - '5432:5432'
+        # volumes:
+        #   - ./db/structure:/docker-entrypoint-initdb.d
