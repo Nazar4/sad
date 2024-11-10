@@ -7,7 +7,7 @@
     "test": "npm run lint && tsc",
     "lint": "eslint . && prettier -c \"**/*.js\" \"**/*.ts\"",
     "fmt": "prettier --write \"**/*.js\" \"**/*.ts\"",
-    "start": "node main.js"
+    "dev": "node main.js"
   },
   "type": "commonjs",
   "author": "",
