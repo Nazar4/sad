@@ -7,9 +7,11 @@ export class TariffsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll() {
-    return this.prisma.tariff.findMany({
+    const result = await this.prisma.tariff.findMany({
       include: { televisionOption: true },
     });
+
+    return result.map((item) => ({ ...item, price: item.price.toNumber() }));
   }
 
   async findById(id: number) {
