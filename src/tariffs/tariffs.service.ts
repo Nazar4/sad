@@ -11,14 +11,39 @@ export class TariffsService {
       include: { televisionOption: true },
     });
 
-    return result.map((item) => ({ ...item, price: item.price.toNumber() }));
+    return result.map((item) => {
+      if (item.televisionOption) {
+        return {
+          ...item,
+          price: item.price.toNumber(),
+          televisionOption: {
+            ...item.televisionOption,
+            price: item.televisionOption.price.toNumber(),
+          },
+        };
+      }
+      return { ...item, price: item.price.toNumber() };
+    });
   }
 
   async findTariffById(id: number) {
-    return this.prisma.tariff.findUnique({
+    const tariff = await this.prisma.tariff.findUnique({
       where: { id },
       include: { televisionOption: true },
     });
+
+    if (tariff.televisionOption) {
+      return {
+        ...tariff,
+        price: tariff.price.toNumber(),
+        televisionOption: {
+          ...tariff.televisionOption,
+          price: tariff.televisionOption.price.toNumber(),
+        },
+      };
+    }
+
+    return { ...tariff, price: tariff.price.toNumber() };
   }
 
   async createTariff(tariff: Tariff) {
@@ -39,7 +64,7 @@ export class TariffsService {
         internetSpeed,
         dataLimit,
         price,
-        televisionOptionId: tariff.televisionOption.id,
+        televisionOptionId: tariff.televisionOption?.id || null,
       },
     });
   }

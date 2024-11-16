@@ -8,5 +8,6 @@ import { AddressesModule } from '../addresses/address.module.js';
   providers: [UsersService, PrismaService],
   controllers: [UsersController],
   imports: [AddressesModule],
+  exports: [UsersService],
 })
 export class UsersModule {}

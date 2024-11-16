@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Logger, Param, Post } from '@nestjs/common';
 import { SubscriptionsService } from './subscriptions.service.js';
-import { Subscription } from './subscriptions.entity.js';
+import { CreateSubscription } from './subscriptions-create.entity.js';
 
 @Controller('subscriptions')
 export class SubscriptionsController {
@@ -27,8 +27,8 @@ export class SubscriptionsController {
   }
 
   @Post()
-  async create(@Body() subscriptionData: Subscription) {
-    this.logger.log(`/subscriptions POST ${subscriptionData}`);
-    return this.subscriptionsService.create(subscriptionData);
+  async create(@Body() data: CreateSubscription) {
+    this.logger.log(`/subscriptions POST ${data}`);
+    return this.subscriptionsService.create(data);
   }
 }
