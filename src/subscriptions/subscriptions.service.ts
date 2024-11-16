@@ -4,7 +4,7 @@ import { Subscription } from './subscriptions.entity.js';
 
 @Injectable()
 export class SubscriptionsService {
-    constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async findAll() {
     return this.prisma.subscription.findMany({
@@ -22,7 +22,7 @@ export class SubscriptionsService {
   async create(subscription: Subscription) {
     const { startDate = new Date(), endDate, isActive = false } = subscription;
     if (new Date(startDate).getMilliseconds() < Date.now()) {
-        throw new Error('Start date is invalid');
+      throw new Error('Start date is invalid');
     }
     if (endDate && !this.isEndDateAfterStartDate(startDate, endDate)) {
       throw new Error('Start date is after End date');
@@ -38,14 +38,13 @@ export class SubscriptionsService {
     });
   }
 
-
-  isEndDateAfterStartDate(startDate: Date, endDate: Date): boolean {
+  private isEndDateAfterStartDate(startDate: Date, endDate: Date): boolean {
     if (!(startDate instanceof Date) || !(endDate instanceof Date)) {
       throw new TypeError('Invalid date objects');
     }
     const timeDifference = endDate.getTime() - startDate.getTime();
 
-    const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000; 
+    const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000;
 
     return timeDifference >= oneMonthInMilliseconds;
   }

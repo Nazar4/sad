@@ -1,11 +1,11 @@
-import { Television } from "./television.entity.js";
+import { Television } from './television.entity.js';
 
 export class Tariff {
-    id: number;
-    name: string;
-    description?: string;
-    internetSpeed: number;
-    dataLimit: number;
-    price: number;
-    televisionOption?: Television;
+  id: number;
+  name: string;
+  description?: string;
+  internetSpeed: number;
+  dataLimit: number;
+  price: number;
+  televisionOption?: Television;
 }

@@ -6,7 +6,7 @@ import { Tariff } from './tariffs.entity.js';
 export class TariffsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll() {
+  async findAllTariffs() {
     const result = await this.prisma.tariff.findMany({
       include: { televisionOption: true },
     });
@@ -14,14 +14,14 @@ export class TariffsService {
     return result.map((item) => ({ ...item, price: item.price.toNumber() }));
   }
 
-  async findById(id: number) {
+  async findTariffById(id: number) {
     return this.prisma.tariff.findUnique({
       where: { id },
       include: { televisionOption: true },
     });
   }
 
-  async create(tariff: Tariff) {
+  async createTariff(tariff: Tariff) {
     const { name, description = '', internetSpeed, dataLimit, price } = tariff;
     if (Number(price) < 0) {
       throw new Error('Negative price is not allowed');

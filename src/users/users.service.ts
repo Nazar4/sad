@@ -36,8 +36,8 @@ export class UsersService {
 
   async login(email: string, password: string): Promise<boolean> {
     const user = this.prisma.user.findUnique({
-        where: { email: email, password: password },
-        include: { role: true }
+      where: { email: email, password: password },
+      include: { role: true },
     });
     return !!user;
   }
