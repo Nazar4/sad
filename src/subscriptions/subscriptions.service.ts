@@ -19,6 +19,16 @@ export class SubscriptionsService {
     });
   }
 
+  async findAllByUserId(userId: number) {
+    return this.prisma.subscription.findMany({
+      where: { userId },
+      include: {
+        tariff: true,
+        user: true,
+      },
+    });
+  }
+
   async create(subscription: Subscription) {
     const { startDate = new Date(), endDate, isActive = false } = subscription;
     if (new Date(startDate).getMilliseconds() < Date.now()) {

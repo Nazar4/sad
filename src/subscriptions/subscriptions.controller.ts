@@ -20,6 +20,12 @@ export class SubscriptionsController {
     return this.subscriptionsService.findById(Number(id));
   }
 
+  @Get('/users/:userId')
+  async findSubscriptionsByUserId(@Param('userId') userId: string) {
+    this.logger.log(`/subscriptions/users/${userId} GET by user id`);
+    return this.subscriptionsService.findAllByUserId(Number(userId));
+  }
+
   @Post()
   async create(@Body() subscriptionData: Subscription) {
     this.logger.log(`/subscriptions POST ${subscriptionData}`);

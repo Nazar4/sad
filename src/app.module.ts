@@ -4,6 +4,7 @@ import { PrismaService } from './prisma.service.js';
 import { UsersModule } from './users/users.module';
 import { TariffsModule } from './tariffs/tariffs.module';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
+import { AddressesModule } from './addresses/address.module.js';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module';
     UsersModule,
     TariffsModule,
     SubscriptionsModule,
+    AddressesModule,
   ],
   controllers: [],
   providers: [PrismaService],

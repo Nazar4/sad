@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { User } from './users.entity.js';
 import { PrismaService } from '../prisma.service.js';
+import { AddressesService } from '../addresses/addresses.service.js';
+import { User } from './users.entity.js';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly addressesService: AddressesService,
+  ) {}
 
   async findAll(): Promise<User[]> {
     return this.prisma.user.findMany({
@@ -21,6 +25,7 @@ export class UsersService {
 
   async create(user: User) {
     const { email, password, firstName, lastName, phone, address } = user;
+    const newAddress = await this.addressesService.create(address);
     return this.prisma.user.create({
       data: {
         email,
@@ -28,7 +33,23 @@ export class UsersService {
         firstName,
         lastName,
         phone,
-        address,
+        addressId: newAddress.id,
+        roleId: user.role.id,
+      },
+    });
+  }
+
+  async update(user: User) {
+    const { id, email, password, firstName, lastName, phone, address } = user;
+    await this.addressesService.update(address);
+    return this.prisma.user.update({
+      where: { id },
+      data: {
+        email,
+        password,
+        firstName,
+        lastName,
+        phone,
         roleId: user.role.id,
       },
     });

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Body, Logger } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, Logger, Put } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './users.entity.js';
 
@@ -24,6 +24,12 @@ export class UsersController {
   async registerUser(@Body() userData: User) {
     this.logger.log(`/users POST ${userData}`);
     return this.usersService.create(userData);
+  }
+
+  @Put()
+  async updateUser(@Body() userData: User) {
+    this.logger.log(`/users PUT ${userData.id}`);
+    return this.usersService.update(userData);
   }
 
   @Post('/login')

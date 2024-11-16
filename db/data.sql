@@ -2,9 +2,13 @@ INSERT INTO "Role" ("id", "name") VALUES
 (1, 'Manager'),
 (2, 'User');
 
-INSERT INTO "User" ("id", "email", "password", "firstName", "lastName", "phone", "address", "roleId") VALUES
-(1, 'manager@example.com', 'manager', 'John', 'Doe', '123456789', '123 Manager St', 1),
-(2, 'user@example.com', 'user', 'Jane', 'Smith', '987654321', '456 User Ave', 2);
+INSERT INTO "Address" ("id", "streetName", "postalCode", "city", "country") VALUES
+(1, 'str. Kavaleridze 25/16', '97011', 'Lviv', 'Ukraine'),
+(2, 'str. Khreschatuk 10/4', '90011', 'Kyiv', 'Ukraine');
+
+INSERT INTO "User" ("id", "email", "password", "firstName", "lastName", "phone", "roleId", "addressId") VALUES
+(1, 'manager@example.com', 'manager', 'John', 'Doe', '123456789', 1, 1),
+(2, 'user@example.com', 'user', 'Jane', 'Smith', '987654321', 2, 2);
 
 INSERT INTO "TelevisionOption" ("id", "packageType", "description", "price") VALUES
 (1, 'Basic', 'Basic TV package', 10.00),

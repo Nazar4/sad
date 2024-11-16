@@ -14,60 +14,71 @@ datasource db {
 }
 
 model User {
-  id         Int       @id @default(autoincrement())
-  email      String    @unique
-  password   String
-  firstName  String
-  lastName   String
-  phone      String?
-  address    String?
-  role       Role      @relation(fields: [roleId], references: [id])
-  roleId     Int
+  id            Int            @id @default(autoincrement())
+  email         String         @unique
+  password      String
+  firstName     String
+  lastName      String
+  phone         String?
+  address       Address        @relation(fields: [addressId], references: [id])
+  addressId     Int            @unique
+  role          Role           @relation(fields: [roleId], references: [id])
+  roleId        Int
   subscriptions Subscription[]
 }
 
+model Address {
+  id         Int     @id @default(autoincrement())
+  streetName String
+  postalCode String
+  city       String?
+  country    String
+  User       User?
+}
+
 model Role {
-  id          Int      @id @default(autoincrement())
-  name        String   @unique
-  users       User[]
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  users User[]
 }
 
 model Tariff {
-  id               Int           @id @default(autoincrement())
-  name             String
-  description      String?
-  internetSpeed    Int           // in Mbps
-  dataLimit        Int?          // in GB, nullable if unlimited
-  price            Decimal
-  televisionOption TelevisionOption? @relation(fields: [televisionOptionId], references: [id])
+  id                 Int               @id @default(autoincrement())
+  name               String
+  description        String?
+  internetSpeed      Int // in Mbps
+  dataLimit          Int? // in GB, nullable if unlimited
+  staticIPAddress    Boolean           @default(false)
+  price              Decimal
+  televisionOption   TelevisionOption? @relation(fields: [televisionOptionId], references: [id])
   televisionOptionId Int?
-  subscriptions    Subscription[]
+  subscriptions      Subscription[]
 }
 
 model TelevisionOption {
-  id           Int      @id @default(autoincrement())
-  packageType  String   // e.g., Basic, Premium, Sports
-  description  String?
-  price        Decimal
-  tariffs      Tariff[]
+  id          Int      @id @default(autoincrement())
+  packageType String // e.g., Basic, Premium, Sports
+  description String?
+  price       Decimal
+  tariffs     Tariff[]
 }
 
 model Subscription {
-  id          Int      @id @default(autoincrement())
-  startDate   DateTime
-  endDate     DateTime?
-  isActive    Boolean  @default(false)
-  user        User     @relation(fields: [userId], references: [id])
-  userId      Int
-  tariff      Tariff   @relation(fields: [tariffId], references: [id])
-  tariffId    Int
-  payments    Payment[]
+  id        Int       @id @default(autoincrement())
+  startDate DateTime
+  endDate   DateTime?
+  isActive  Boolean   @default(false)
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
+  tariff    Tariff    @relation(fields: [tariffId], references: [id])
+  tariffId  Int
+  payments  Payment[]
 }
 
 model Payment {
-  id           Int       @id @default(autoincrement())
-  amount       Decimal
-  status       String     // e.g., "Completed", "Pending", "Failed"
-  subscription Subscription @relation(fields: [subscriptionId], references: [id])
+  id             Int          @id @default(autoincrement())
+  amount         Decimal
+  status         String // e.g., "Completed", "Pending", "Failed"
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
   subscriptionId Int
 }
