@@ -1,9 +1,12 @@
 'use strict';
 
-const fsp = require('node:fs').promises;
+const fs = require('node:fs');
 const path = require('node:path');
 const pg = require('pg');
 const config = require('./config.js');
+const { promisify } = require('./src/utils/adapter.js');
+
+const readFile = promisify(fs.readFile);
 
 const DB_DATA_SCRIPT = path.join(process.cwd(), './db/data.sql');
 
@@ -18,7 +21,7 @@ const execute = async (client, sql) => {
 const notEmpty = (s) => s.trim() !== '';
 
 const executeFile = async (client) => {
-  const sql = await fsp.readFile(DB_DATA_SCRIPT, 'utf8');
+  const sql = await readFile(DB_DATA_SCRIPT, 'utf8');
   const commands = sql.split(';\n').filter(notEmpty);
   for (const command of commands) {
     await execute(client, command);

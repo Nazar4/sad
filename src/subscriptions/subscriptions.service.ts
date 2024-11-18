@@ -13,13 +13,15 @@ export class SubscriptionsService {
   ) {}
 
   async findAll() {
-    return this.prisma.subscription.findMany({
+    const subs = await this.prisma.subscription.findMany({
       include: { tariff: true, user: true },
     });
+
+    return subs.map((sub) => ({ ...sub, price: sub.price.toNumber() }));
   }
 
   async findById(id: number) {
-    return this.prisma.subscription.findUnique({
+    const sub = await this.prisma.subscription.findUnique({
       where: { id },
       include: {
         tariff: {
@@ -30,6 +32,8 @@ export class SubscriptionsService {
         user: true,
       },
     });
+
+    return { ...sub, price: sub.price.toNumber() };
   }
 
   async findAllByUserId(userId: number) {
@@ -49,7 +53,7 @@ export class SubscriptionsService {
       if (!sub.includeTelevision) {
         delete sub.tariff.televisionOption;
       }
-      return sub;
+      return { ...sub, price: sub.price.toNumber() };
     });
   }
 
