@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Logger, Param, Post } from '@nestjs/common';
-import { SubscriptionsService } from './subscriptions.service.js';
-import { CreateSubscription } from './subscriptions-create.entity.js';
+import { SubscriptionsService } from './subscriptions.service';
+import { CreateSubscription } from './subscriptions-create.entity';
 
 @Controller('subscriptions')
 export class SubscriptionsController {

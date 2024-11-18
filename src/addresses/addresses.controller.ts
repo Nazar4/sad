@@ -7,7 +7,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { AddressesService } from './addresses.service.js';
+import { AddressesService } from './addresses.service';
 import { Address } from '@prisma/client';
 
 @Controller('addresses')

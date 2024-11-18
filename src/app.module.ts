@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { PrismaService } from './prisma.service.js';
+import { PrismaService } from './prisma.service';
 import { UsersModule } from './users/users.module';
 import { TariffsModule } from './tariffs/tariffs.module';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
-import { AddressesModule } from './addresses/address.module.js';
+import { AddressesModule } from './addresses/address.module';
 
 @Module({
   imports: [

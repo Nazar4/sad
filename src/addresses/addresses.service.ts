@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.service.js';
+import { PrismaService } from '../prisma.service';
 import { Address } from '@prisma/client';
 
 @Injectable()
@@ -14,8 +14,9 @@ export class AddressesService {
 
   async create(address: Address) {
     const { streetName, city, country, postalCode } = address;
-    if (postalCode.length !== 5 || !streetName || !city || !country)
+    if (postalCode.length !== 5 || !streetName || !city || !country) {
       throw new BadRequestException('Address validation failed');
+    }
     return this.prisma.address.create({
       data: {
         streetName,

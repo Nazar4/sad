@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.service.js';
-import { AddressesService } from '../addresses/addresses.service.js';
-import { User } from './users.entity.js';
+import { PrismaService } from '../prisma.service';
+import { AddressesService } from '../addresses/addresses.service';
+import { User } from './users.entity';
 
 @Injectable()
 export class UsersService {

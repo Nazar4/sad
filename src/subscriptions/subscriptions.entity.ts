@@ -1,5 +1,5 @@
-import { Tariff } from '../tariffs/tariffs.entity.js';
-import { User } from '../users/users.entity.js';
+import { Tariff } from '../tariffs/tariffs.entity';
+import { User } from '../users/users.entity';
 
 export class Subscription {
   id: number;

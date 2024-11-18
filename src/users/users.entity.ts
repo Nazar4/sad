@@ -1,5 +1,5 @@
 import { Address } from '@prisma/client';
-import { Role } from './role.entity.js';
+import { Role } from './role.entity';
 
 export class User {
   id: number;

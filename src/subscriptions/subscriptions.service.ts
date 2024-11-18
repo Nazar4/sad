@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.service.js';
-import { CreateSubscription } from './subscriptions-create.entity.js';
-import { UsersService } from '../users/users.service.js';
-import { TariffsService } from '../tariffs/tariffs.service.js';
+import { PrismaService } from '../prisma.service';
+import { CreateSubscription } from './subscriptions-create.entity';
+import { UsersService } from '../users/users.service';
+import { TariffsService } from '../tariffs/tariffs.service';
 
 @Injectable()
 export class SubscriptionsService {
@@ -68,13 +68,13 @@ export class SubscriptionsService {
     try {
       const user = await this.usersService.findById(userId);
       const tariff = await this.tariffService.findTariffById(tariffId);
-      if (new Date(startDate).getMilliseconds() < Date.now()) {
+      if (new Date(startDate).getTime() < Date.now()) {
         throw new Error('Start date is invalid');
       }
       if (endDate && !this.isEndDateAfterStartDate(startDate, endDate)) {
         throw new Error('Start date is after End date');
       }
-      let price = tariff.price;
+      let price = Number(tariff.price);
       if (includeTelevision) {
         price += Number(tariff.televisionOption.price);
       }
@@ -90,7 +90,7 @@ export class SubscriptionsService {
         },
       });
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       throw new BadRequestException(error.message);
     }
   }

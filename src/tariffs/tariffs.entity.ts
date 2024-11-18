@@ -1,4 +1,4 @@
-import { Television } from './television.entity.js';
+import { Television } from './television.entity';
 
 export class Tariff {
   id: number;

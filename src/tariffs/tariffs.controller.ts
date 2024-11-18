@@ -8,8 +8,8 @@ import {
   Post,
   UseInterceptors,
 } from '@nestjs/common';
-import { TariffsService } from './tariffs.service.js';
-import { Tariff } from './tariffs.entity.js';
+import { TariffsService } from './tariffs.service';
+import { Tariff } from './tariffs.entity';
 
 @Controller('tariffs')
 @UseInterceptors(ClassSerializerInterceptor)
