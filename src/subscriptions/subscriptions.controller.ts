@@ -26,6 +26,12 @@ export class SubscriptionsController {
     return this.subscriptionsService.findAllByUserId(Number(userId));
   }
 
+  @Post('/stop/:subscriptionId')
+  async stopSubscription(@Param('subscriptionId') subscriptionId: string) {
+    this.logger.log(`/stopSubscription POST ${subscriptionId}`);
+    return this.subscriptionsService.stopSubscription(Number(subscriptionId));
+  }
+
   @Post()
   async create(@Body() data: CreateSubscription) {
     this.logger.log(`/subscriptions POST ${data}`);

@@ -68,7 +68,11 @@ export class SubscriptionsService {
     try {
       const user = await this.usersService.findById(userId);
       const tariff = await this.tariffService.findTariffById(tariffId);
-      if (new Date(startDate).getTime() < Date.now()) {
+
+      startDate = new Date(startDate);
+      endDate = endDate ? new Date(endDate) : null;
+
+      if (new Date(startDate).getTime() < new Date().getTime()) {
         throw new Error('Start date is invalid');
       }
       if (endDate && !this.isEndDateAfterStartDate(startDate, endDate)) {
@@ -91,6 +95,18 @@ export class SubscriptionsService {
       });
     } catch (error) {
       // console.error(error);
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async stopSubscription(subscriptionId: number) {
+    try {
+      return this.prisma.subscription.update({
+        where: { id: subscriptionId },
+        data: { endDate: new Date(), isActive: false },
+      });
+    } catch (error) {
+      console.error(error);
       throw new BadRequestException(error.message);
     }
   }
